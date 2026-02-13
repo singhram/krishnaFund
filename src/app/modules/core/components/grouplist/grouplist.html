@@ -1,0 +1,47 @@
+<div class="list-container">
+  <div class="header">
+    <h2>Group List</h2>
+    <button class="add-btn" routerLink="/group/add">Add New Group</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Full Name</th>
+          <th>Months</th>
+          <th>Run. Month</th>
+          <th>Bal. Month</th>
+          <th>Auction</th>
+          <th>Balance</th>
+          <th>Interest</th>
+          <th>Taken By</th>
+          <!-- <th>Actions</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        @for (group of groupList; track group.groupId) {
+          <tr [routerLink]="['/usergrouplist', group._id]">
+            <td>{{ group.createdDate | date:'mediumDate' }}</td>
+            <td>{{ group.groupId }}</td>
+            <td>{{ group.totalnumberOfmonths }}</td>
+            <td>{{ group.runningMonth }}</td>
+            <td>{{ group.balanceMonth }}</td>
+            <td>{{ group.auction }}</td>
+            <td>{{ group.interest }}</td>
+            <td>{{ group.net }}</td>
+            <!-- <td>{{ group.takenBy }}</td> -->
+            <td>
+              <button class="edit-btn" [routerLink]="['/group/edit', group._id]">Edit</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="9" class="empty-msg">No groups available.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="table-wrapper">
+    <button [routerLink]="['/userlist']">Home</button>
+    <h1>{{ userDetails.userDetail.name }}</h1>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Created Date</th>
+        <th>Group ID</th>
+        <th>Months</th>
+        <th>Running</th>
+        <th>Auction</th>
+        <th>Interest </th>
+        <th>Taken By</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let group of userDetails.userGroups">
+        <td>{{ group.createdDate | date:'shortDate' }}</td>
+        <td  [routerLink]="['/usergrouplist', group._id]">{{ group._id }}</td>
+        <td>{{ group.numberOfmonths }}</td>
+        <td>{{ group.running }}</td>
+        <td>{{ group.auction }}</td>
+        <td>{{ group.interest }}</td>
+        <td>{{ group.takenBy }}</td>
+        <td class="text-right">{{ group.balance  }}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="7" class="text-right"><strong>Total Balance:</strong></td>
+        <td class="text-right"><strong>{{ totalBalance   }}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

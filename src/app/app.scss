@@ -1,0 +1,21 @@
+/* app.component.scss */
+
+// :host targets the <app-root> tag itself
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  
+  // This ensures that whatever component is inside <router-outlet> 
+  // can be centered or spaced correctly
+  display: flex;
+  flex-direction: column;
+  overflow: auto; /* Adds scrollbars only if content overflows */
+  align-items: center;
+    justify-content: center;
+}

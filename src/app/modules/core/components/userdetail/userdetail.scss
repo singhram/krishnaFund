@@ -1,0 +1,47 @@
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; // Enables horizontal scroll
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; // Forces scroll on smaller screens
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  th {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap; // Keeps data on one line
+  }
+
+  tr:nth-child(even) {
+    background-color: #fcfcfc;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .total-row {
+    background-color: #f8f9fa;
+    td {
+      border-top: 2px solid #007bff;
+      font-size: 1.1rem;
+    }
+  }
+}
+:host{
+    max-width: 100%;
+}

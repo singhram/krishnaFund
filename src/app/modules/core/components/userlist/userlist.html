@@ -1,0 +1,41 @@
+<div class="list-container">
+  <div class="header">
+    <h2>User List</h2>
+     <button class="add-group" routerLink="/grouplist">All Groups</button>
+    <button class="add-btn" routerLink="/user/add">Add  User</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track user.userId) {
+        <tr>
+           <!-- <td>
+            <a   class="table-link">{{ user.userId }}</a>
+          </td> -->
+          <td>
+            <a [routerLink]="['/userdetails', user.userId]" class="table-link">{{ user.name }}</a>
+          </td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>
+            <button class="edit-btn" [routerLink]="['/user/edit', user.userId]">Edit</button>
+          </td>
+           <td>
+            <button class="delete-btn add-group" (click)="deleteUser(user.userId)">Delete</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" class="empty-msg">No users found.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

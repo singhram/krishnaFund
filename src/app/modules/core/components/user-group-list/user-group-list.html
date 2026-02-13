@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="group-header">
+    <h2>{{ groupData.group.groupId }}</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <strong>Running:</strong> {{ groupData.group.runningMonth }} Months
+      </div>
+      <div class="stat-item">
+        <strong>Balance Month:</strong> {{ groupData.group.balanceMonth }}
+      </div>
+      <div class="stat-item">
+        <strong>Auction:</strong> {{ groupData.group.auction }}
+      </div>
+      <div class="stat-item">
+        <strong>Interest:</strong> {{ groupData.group.interest }}
+      </div>
+      <div class="stat-item">
+        <strong>Taken by:</strong> {{ groupData.group.takenBy }}
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <h3>Member List</h3>
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of groupData.userDetails">
+          <td [routerLink]="['/userdetails', user.userId]">{{ user.userId }}</td>
+          <td [routerLink]="['/userdetails', user.userId]">{{ user.name }}</td>
+          <td>{{ user.phoneNumber }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

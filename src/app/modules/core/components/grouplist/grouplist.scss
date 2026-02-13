@@ -1,0 +1,100 @@
+.list-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  
+  h2 { margin: 0; font-size: 1.5rem; }
+}
+
+/* FIX: Table Scroll Logic */
+.table-wrapper {
+  width: 100%;
+  display: block;          /* Force block behavior */
+  overflow-x: auto;        /* Enable horizontal scroll */
+  overflow-y: hidden;      /* Prevent vertical scroll fight */
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  -webkit-overflow-scrolling: touch; /* Momentum scroll for mobile */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;       /* Increased to ensure overflow on all mobiles */
+  
+  th, td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;   /* Crucial: prevents text from squeezing */
+  }
+
+  /* STICKY HEADER: Keeps header at top while scrolling */
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+  }
+
+  tr:hover {
+    background-color: #fcfcfc;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+/* BUTTONS */
+.edit-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #0056b3; }
+}
+
+.add-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #218838; }
+}
+
+/* Empty message row */
+.empty-msg {
+  text-align: center !important;
+  color: #888;
+  padding: 30px !important;
+}
+:host{
+  max-width: 100%;
+}

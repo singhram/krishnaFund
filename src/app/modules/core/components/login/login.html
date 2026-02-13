@@ -1,0 +1,21 @@
+<div class="login-card">
+  <h2>Login</h2>
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div class="field">
+      <label>Username</label>
+      <input type="text" formControlName="username" placeholder="Enter username">
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="Enter password">
+    </div>
+
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+
+    <button type="submit" [disabled]="loginForm.invalid">Sign In</button>
+  </form>
+</div>

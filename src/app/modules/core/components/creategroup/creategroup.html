@@ -1,0 +1,59 @@
+<div class="form-container">
+  <h1>{{isEditMode ? 'Edit' : 'Add'}} Group</h1>
+  <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+
+    <div class="field">
+      <label>Group ID / Name</label>
+      <input type="text" formControlName="groupId" placeholder="e.g. 25n">
+    </div>
+
+    <div class="field">
+      <label>Group Amount</label>
+      <input type="number" formControlName="groupAmount">
+    </div>
+    <div class="field">
+      <label>Base Amount</label>
+      <input type="number" formControlName="baseAmount">
+    </div>
+    <div class="field">
+      <label>Total Months</label>
+      <input type="number" formControlName="totalnumberOfmonths">
+    </div>
+
+    <div class="field">
+      <label>Running Month</label>
+      <input type="number" formControlName="runningMonth">
+    </div>
+
+    <div class="field">
+      <label>Balance Months</label>
+      <input type="number" formControlName="balanceMonth">
+    </div>
+    <div class="field">
+      <label>Auction Amount</label>
+      <input type="number" formControlName="auction">
+    </div>
+    <div class="field">
+      <label>Interest</label>
+      <input type="number" formControlName="interest">
+    </div>
+    <div class="field">
+      <label>Net (Monthly Installment)</label>
+      <input type="number" formControlName="net">
+    </div>
+    <div class="field">
+      <label>Given To (Taken By)</label>
+      <input type="text" formControlName="takenBy">
+    </div>
+
+    <div class="field">
+      <label>Created Date</label>
+      <input type="date" formControlName="createdDate">
+    </div>
+
+    <button type="submit" [disabled]="groupForm.invalid">
+      {{ isEditMode ? 'Update Changes' : 'Save Group' }}
+    </button>
+  </form>
+
+</div>

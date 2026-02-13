@@ -1,0 +1,42 @@
+<div>
+  <button [routerLink]="['/userlist']">back</button>
+</div>
+
+<div class="form-container">
+  <h2>{{ isEditMode ? 'Edit User' : 'Add New User' }}</h2>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    
+    <div class="field" *ngIf="isEditMode">
+      <label>User ID</label>
+      <input type="text" formControlName="userId" class="disabled-input" readonly>
+    </div>
+
+    <div class="field">
+      <label>Name</label>
+      <input type="text" formControlName="name" placeholder="Enter full name">
+      <small *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid">
+        Name is required.
+      </small>
+    </div>
+
+    <div class="field">
+      <label>Phone Number</label>
+      <input type="text" formControlName="phoneNumber" placeholder="10 digit mobile">
+      <small *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid">
+        Enter a valid 10-digit number.
+      </small>
+    </div>
+
+    <div class="field">
+      <label>Other Name (Nickname)</label>
+      <input type="text" formControlName="otherName" placeholder="Optional">
+    </div>
+
+    <div class="actions">
+      <button type="submit" [disabled]="userForm.invalid">
+        {{ isEditMode ? 'Update User' : 'Create User' }}
+      </button>
+    </div>
+  </form>
+</div>
