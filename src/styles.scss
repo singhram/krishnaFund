@@ -40,7 +40,7 @@ body {
 }
 /* You can add global styles to this file, and also import other style files */
 .form-container {
-  max-width: 500px;
+  // max-width: 500px;
   margin: 2rem auto;
   padding: 2rem;
   border: 2px solid #333; /* If you see this border, CSS is working! */
@@ -75,5 +75,14 @@ button {
 
   &:disabled {
     background: #ccc;
+  }
+}
+.form{
+  display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    /* Small Screens: 1 Column */
+@media (max-width: 600px) {
+    grid-template-columns: 1fr; /* Changes to a single column */
   }
 }

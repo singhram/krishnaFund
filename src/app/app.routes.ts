@@ -35,6 +35,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path:'group/user/:groupid',
+        loadComponent:()=>import('./modules/core/components/group-adduser/group-adduser').then(m => m.GroupAdduser),
+        canActivate: [authGuard]
+    },
+    {
         path:'userlist',
         loadComponent:()=>import('./modules/core/components/userlist/userlist').then(m => m.Userlist),
         canActivate: [authGuard]

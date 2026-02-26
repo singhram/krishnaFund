@@ -1,6 +1,6 @@
 <div class="form-container">
-  <h1>{{isEditMode ? 'Edit' : 'Add'}} Group</h1>
-  <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+  <h1>{{isEditMode ? 'Edit' : 'Add'}} Group <button [routerLink]="['/group/user',groupId]"> Update user</button> </h1>
+  <form [formGroup]="groupForm" class="form" (ngSubmit)="onSubmit()">
 
     <div class="field">
       <label>Group ID / Name</label>
@@ -50,10 +50,11 @@
       <label>Created Date</label>
       <input type="date" formControlName="createdDate">
     </div>
-
-    <button type="submit" [disabled]="groupForm.invalid">
-      {{ isEditMode ? 'Update Changes' : 'Save Group' }}
-    </button>
+    <div class="row">
+      <button type="submit" [disabled]="groupForm.invalid">
+        {{ isEditMode ? 'Update Changes' : 'Save Group' }}
+      </button>
+    </div>
   </form>
 
 </div>

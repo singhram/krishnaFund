@@ -1,3 +1,5 @@
+import { User } from "./user.model";
+
 export interface GroupInterface {
     /** MongoDB unique identifier */
     _id: string;
@@ -35,4 +37,9 @@ export interface GroupInterface {
     net: number;
     groupAmount: number;
     id: string
+}
+
+export interface GroupUserInterface {
+    group :GroupInterface,
+    userDetails:User[]
 }

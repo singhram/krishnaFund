@@ -1,0 +1,61 @@
+<div   class="card">
+  <div class="header">
+    <h2>{{ groupData.group.groupId }}</h2>
+    <span class="badge">Auction #{{ groupData.group.auction }}</span>
+  </div>
+
+  <div class="group-grid">
+    <div class="info-box">
+      <label>Balance</label>
+      <p>{{ groupData.group.balance | currency }}</p>
+    </div>
+    <div class="info-box">
+      <label>Interest Rate</label>
+      <p>{{ groupData.group.interest }}%</p>
+    </div>
+    <div class="info-box">
+      <label>Months</label>
+      <p>{{ groupData.group.running }} / {{ groupData.group.numberOfmonths }}</p>
+    </div>
+    <div class="info-box">
+      <label>Taken By</label>
+      <p>{{ groupData.group.takenBy }}</p>
+    </div>
+
+    <div class="search-section">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="onSearchChange()"
+        placeholder="Search users by name or phone..." 
+      />
+      
+      <ul class="autocomplete-list" *ngIf="filteredUsers.length > 0">
+        <li *ngFor="let user of filteredUsers" (click)="addUserToGroup(user)">
+          <strong>{{ user.name }}</strong> - {{ user.phoneNumber }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr />
+
+  <h3>Group Members</h3>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of groupData.userDetails">
+        <td>{{ user.name }}</td>
+        <td>{{ user.phoneNumber }}</td>
+        <td><span class="status-pill">Active</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

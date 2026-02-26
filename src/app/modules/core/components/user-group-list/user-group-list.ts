@@ -9,7 +9,7 @@ import { GroupService } from '@app/services/group/group.service';
 
 @Component({
   selector: 'app-user-group-list',
-  imports: [CommonModule,DatePipe,RouterLink],
+  imports: [CommonModule,RouterLink],
   templateUrl: './user-group-list.html',
   styleUrl: './user-group-list.scss',
 })
