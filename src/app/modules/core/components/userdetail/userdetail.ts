@@ -36,7 +36,7 @@ export class Userdetail implements OnInit {
 
   // Calculate the total balance
   get totalBalance(): number {
-    return this.userDetails.userGroups.reduce((sum, item) => sum + item.balance, 0);
+    return this.userDetails.userGroups.reduce((sum, item) => sum + item.net, 0);
   }
   getUserTotalAmount() {
     this.userId = this.route.snapshot.paramMap.get('id');

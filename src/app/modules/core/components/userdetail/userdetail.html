@@ -23,18 +23,18 @@
         <td data-label="Group ID" [routerLink]="['/usergrouplist', group._id]" class="link">
           {{ group.groupId }}
         </td>
-        <td data-label="running Months">{{ group.running }}</td>
+        <td data-label="running Months">{{ group.runningMonth }}</td>
         <td data-label="Balance Months">{{ group.balanceMonth }}</td>
         <td data-label="Auction">{{ group.auction }}</td>
         <td data-label="Interest">{{ group.interest }}</td>
-        <td data-label="Balance" class="text-right bold">{{ group.balance  }}</td>
+        <td data-label="Balance" class="text-right bold">{{ group.net  }}</td>
         <!-- <td data-label="Taken By">{{ group.takenBy }}</td> -->
       </tr>
     </tbody>
     <tfoot>
       <tr class="total-row">
         <td data-label="Grand Total" class="text-right">
-          <strong>{{ totalBalance  }}</strong>
+          <strong>Total :</strong><strong>{{ totalBalance  }}</strong>
         </td>
       </tr>
     </tfoot>
