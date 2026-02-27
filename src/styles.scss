@@ -76,6 +76,9 @@ button {
   &:disabled {
     background: #ccc;
   }
+  &.red{
+    background: red;
+  }
 }
 .form{
   display: grid;

@@ -1,4 +1,4 @@
-import { Component, OnInit, DestroyRef } from '@angular/core';
+import { Component, OnInit, DestroyRef, ChangeDetectorRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -42,12 +42,13 @@ export class GroupAdduser implements OnInit {
   public allAvailableUsers: User[] = [];
   public filteredUsers: User[] = [];
   public searchTerm: string = '';
-
+  public deleteuserList :User[] = []
   constructor(
     public route: ActivatedRoute,
     public groupService: GroupService,
     public destroyRef: DestroyRef,
-    public userService: UserService
+    public userService: UserService,
+    public markdef : ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +65,7 @@ getGroupDetails(id: string) {
     .subscribe({
       next: (response: any) => {
         this.groupData = response as GroupUserInterface;
+        this.markdef.detectChanges()
       },
       error: (err) => {
         console.error('Error fetching group:', err);
@@ -96,7 +98,23 @@ getGroupDetails(id: string) {
   addUserToGroup(user: User) {
     console.log('Adding user:', user);
     // Logic to update your group list locally or via API
+    this.groupData.userDetails.push(user)
     this.searchTerm = '';
     this.filteredUsers = [];
+  }
+  delteUser(index:number,user :User){
+    this.deleteuserList.push(user)
+    this.groupData.userDetails.splice(index,1)
+  }
+  updateGroup(){
+    const users = this.groupData.userDetails.map(v=>v.userId)
+    const groupBody = {group:{...this.groupData.group,users:users},users:users}
+    console.log('groupBody: ', groupBody);
+    this.groupService.updateGroup(this.groupData.group._id,groupBody)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe((response)=>{
+      alert("Group Updated")
+    })
+    
   }
 }

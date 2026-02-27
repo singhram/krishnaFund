@@ -1,30 +1,37 @@
 <div   class="card">
   <div class="header">
     <h2>{{ groupData.group.groupId }}</h2>
-    <span class="badge">Auction #{{ groupData.group.auction }}</span>
+    <span class="badge">{{ groupData.group.groupAmount }} ({{groupData.group.baseAmount}})</span>
   </div>
 
   <div class="group-grid">
     <div class="info-box">
-      <label>Balance</label>
-      <p>{{ groupData.group.balance | currency }}</p>
+      <label> Running / Balance Months</label>
+      <p>{{ groupData.group.runningMonth }} / {{ groupData.group.balanceMonth }}</p>
     </div>
     <div class="info-box">
-      <label>Interest Rate</label>
-      <p>{{ groupData.group.interest }}%</p>
+      <label>Auction</label>
+      <p>{{ groupData.group.auction }}</p>
     </div>
     <div class="info-box">
-      <label>Months</label>
-      <p>{{ groupData.group.running }} / {{ groupData.group.numberOfmonths }}</p>
+      <label>Interest</label>
+      <p>{{ groupData.group.interest }}</p>
+    </div>
+     <div class="info-box">
+      <label>Net</label>
+      <p>{{ groupData.group.net }}</p>
     </div>
     <div class="info-box">
       <label>Taken By</label>
       <p>{{ groupData.group.takenBy }}</p>
     </div>
 
-    <div class="search-section">
+    
+  </div>
+<div class="search-section">
       <input 
         type="text" 
+        [disabled] = "groupData.userDetails.length == groupData.group.numberOfmonths"
         [(ngModel)]="searchTerm" 
         (input)="onSearchChange()"
         placeholder="Search users by name or phone..." 
@@ -36,26 +43,29 @@
         </li>
       </ul>
     </div>
-  </div>
-
   <hr />
 
   <h3>Group Members</h3>
   <table class="user-table">
     <thead>
       <tr>
+        <th>S.no</th>
         <th>Name</th>
         <th>Phone Number</th>
-        <th>Status</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of groupData.userDetails">
+      <tr *ngFor="let user of groupData.userDetails;let userindex = index">
+        <td>{{userindex+1}}</td>
         <td>{{ user.name }}</td>
         <td>{{ user.phoneNumber }}</td>
-        <td><span class="status-pill">Active</span></td>
+        <td><button class="button red" (click)="delteUser(userindex,user)">Delete</button></td>
       </tr>
     </tbody>
   </table>
+  <div>
+    <button (click)="updateGroup()">Save</button>
+  </div>
 </div>
 
