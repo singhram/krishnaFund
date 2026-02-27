@@ -1,6 +1,12 @@
 .container {
   padding: 20px;
   font-family: sans-serif;
+  .button-holder{
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+
+  }
 }
 
 .group-header {

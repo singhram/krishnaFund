@@ -1,4 +1,8 @@
 <div class="container">
+    <div  class="button-holder">
+    <button [routerLink]="['/grouplist']">Back</button>
+    <button class="red" (click)="deleteGroup()">Delete Group</button>
+  </div>
   <div class="group-header">
     <h2>{{ groupData.group.groupId }}</h2>
     <div class="stats-grid">

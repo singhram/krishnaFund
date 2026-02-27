@@ -1,6 +1,6 @@
 import { Component, OnInit, DestroyRef, ChangeDetectorRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { User } from '@app/models/user.model';
@@ -11,7 +11,7 @@ import { GroupUserInterface } from '@app/models/group.model';
 @Component({
   selector: 'app-group-adduser',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './group-adduser.html',
   styleUrl: './group-adduser.scss',
 })

@@ -43,3 +43,7 @@ export interface GroupUserInterface {
     group :GroupInterface,
     userDetails:User[]
 }
+export interface userGroupInterface {
+   group: GroupInterface
+  userDetails: User[]
+}

@@ -1,4 +1,8 @@
 <div class="list-container">
+  <div class="container">
+    <div  class="mt-2">
+    <button [routerLink]="['/userlist']">Back</button>
+  </div>
   <div class="header">
     <h2>Group List</h2>
     <button class="add-btn" routerLink="/group/add">Add New Group</button>
@@ -17,6 +21,8 @@
           <th>Balance</th>
           <th>Interest</th>
           <th>Taken By</th>
+          <th></th>
+          <th></th>
           <!-- <th>Actions</th> -->
         </tr>
       </thead>
@@ -31,7 +37,7 @@
             <td>{{ group.auction }}</td>
             <td>{{ group.interest }}</td>
             <td>{{ group.net }}</td>
-            <!-- <td>{{ group.takenBy }}</td> -->
+            <td>{{ group.takenBy }}</td>
             <td>
               <button class="edit-btn" [routerLink]="['/group/edit', group._id]">Edit</button>
             </td>
