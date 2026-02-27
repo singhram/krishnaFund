@@ -1,35 +1,41 @@
 <div class="table-wrapper">
-    <button [routerLink]="['/userlist']">Home</button>
-    <h1>{{ userDetails.userDetail.name }}</h1>
+  <button class="nav-btn" [routerLink]="['/userlist']">← Back to Home</button>
+  <h1 class="user-title">{{ userDetails.userDetail.name }}</h1>
+
   <table class="styled-table">
     <thead>
       <tr>
+        <th>S.no</th>
         <th>Created Date</th>
         <th>Group ID</th>
-        <th>Months</th>
-        <th>Running</th>
+        <th>Running Month</th>
+        <th>Balance Months</th>
         <th>Auction</th>
-        <th>Interest </th>
-        <th>Taken By</th>
+        <th>Interest</th>
         <th>Balance</th>
+        <!-- <th>Taken By</th> -->
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let group of userDetails.userGroups">
-        <td>{{ group.createdDate | date:'shortDate' }}</td>
-        <td  [routerLink]="['/usergrouplist', group._id]">{{ group._id }}</td>
-        <td>{{ group.numberOfmonths }}</td>
-        <td>{{ group.running }}</td>
-        <td>{{ group.auction }}</td>
-        <td>{{ group.interest }}</td>
-        <td>{{ group.takenBy }}</td>
-        <td class="text-right">{{ group.balance  }}</td>
+      <tr *ngFor="let group of userDetails.userGroups;let index  = index">
+        <td > <span class="sno">{{index+1}}</span></td>
+        <td data-label="Date">{{ group.createdDate | date:'shortDate' }}</td>
+        <td data-label="Group ID" [routerLink]="['/usergrouplist', group._id]" class="link">
+          {{ group.groupId }}
+        </td>
+        <td data-label="running Months">{{ group.running }}</td>
+        <td data-label="Balance Months">{{ group.balanceMonth }}</td>
+        <td data-label="Auction">{{ group.auction }}</td>
+        <td data-label="Interest">{{ group.interest }}</td>
+        <td data-label="Balance" class="text-right bold">{{ group.balance  }}</td>
+        <!-- <td data-label="Taken By">{{ group.takenBy }}</td> -->
       </tr>
     </tbody>
     <tfoot>
       <tr class="total-row">
-        <td colspan="7" class="text-right"><strong>Total Balance:</strong></td>
-        <td class="text-right"><strong>{{ totalBalance   }}</strong></td>
+        <td data-label="Grand Total" class="text-right">
+          <strong>{{ totalBalance  }}</strong>
+        </td>
       </tr>
     </tfoot>
   </table>

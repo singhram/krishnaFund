@@ -1,47 +1,81 @@
+/* 1. The Wrapper (Crucial for scrolling) */
 .table-wrapper {
   width: 100%;
-  overflow-x: auto; // Enables horizontal scroll
-  border: 1px solid #ddd;
+  overflow-x: auto;          /* Enables horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* Smooth touch scrolling */
+  margin-bottom: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  
+  /* Optional: Custom scrollbar to make it look thinner */
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 10px;
+  }
 }
 
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px; // Forces scroll on smaller screens
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-  th {
-    background-color: #007bff;
-    color: white;
-    text-align: left;
+  min-width: 800px; /* Forces the scroll on desktop/tablet if screen is narrow */
+  
+  th, td {
     padding: 12px 15px;
-    white-space: nowrap;
-  }
-
-  td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
-    white-space: nowrap; // Keeps data on one line
-  }
-
-  tr:nth-child(even) {
-    background-color: #fcfcfc;
-  }
-
-  .text-right {
-    text-align: right;
-  }
-
-  .total-row {
-    background-color: #f8f9fa;
-    td {
-      border-top: 2px solid #007bff;
-      font-size: 1.1rem;
-    }
+    white-space: nowrap; /* Keeps data from wrapping and breaking table look */
   }
 }
-:host{
-    max-width: 100%;
+
+/* 2. Your Mobile Card Logic */
+@media (max-width: 768px) {
+  .table-wrapper {
+    overflow-x: visible; /* Disable horizontal scroll when in card mode */
+  }
+
+  .styled-table {
+    min-width: unset; 
+    display: block;
+
+    thead { display: none; }
+
+    tbody, tr, td {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      margin-bottom: 1.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem;
+      background: white;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    td {
+      text-align: right;
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      white-space: normal; /* Allow wrapping INSIDE the card */
+      .sno{
+        background-color: black;
+        padding: 10px;
+        border-radius: 50%;
+        color:white;
+      }
+      &::before {
+        content: attr(data-label); 
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        padding-right: 10px;
+        text-align: left;
+      }
+    }
+  }
 }

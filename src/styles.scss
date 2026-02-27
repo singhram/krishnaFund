@@ -10,11 +10,12 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal side-scrolling */
+  overflow-x: scroll; /* Prevent horizontal side-scrolling */
 }
 
 html {
   height: 100%;
+  
   @include mat.theme((
     color: (
       primary: mat.$azure-palette,
