@@ -1,21 +1,21 @@
-/* app.component.scss */
-
-// :host targets the <app-root> tag itself
 :host {
   display: block;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh; // Use min-height so it can grow
+  width: 100%;
+  background-color: #f4f7f6; // Optional: light grey background
 }
 
 main {
-  // height: 100%;
   width: 100%;
-  
-  // This ensures that whatever component is inside <router-outlet> 
-  // can be centered or spaced correctly
   display: flex;
   flex-direction: column;
-  overflow: auto; /* Adds scrollbars only if content overflows */
-  align-items: center;
-    justify-content: center;
+  
+  /* Remove justify-content: center; it causes the "top overflow" bug */
+  
+  /* Use padding for top/bottom spacing instead */
+  padding: 5rem 1rem; 
+  
+  /* This ensures the content doesn't get stuck to the top on big screens */
+  min-height: 100vh; 
+  box-sizing: border-box;
 }
