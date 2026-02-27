@@ -4,11 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { GroupService } from '@app/services/group/group.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { GroupUserInterface } from '@app/models/group.model';
+import { GroupUser } from '../../utils/group';
 
 @Component({
   selector: 'app-creategroup',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './creategroup.html',
   styleUrl: './creategroup.scss',
 })
@@ -16,19 +18,19 @@ export class Creategroup implements OnInit {
   groupForm!: FormGroup;
   isEditMode = false;
   groupId: string | null = null;
-
+  groupData = new GroupUser();
   // Modern injection (Angular 20 style)
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
-private destroyRef = inject(DestroyRef);
-  constructor(public groupService: GroupService,public cdr: ChangeDetectorRef) {}
+  private destroyRef = inject(DestroyRef);
+  constructor(public groupService: GroupService, public cdr: ChangeDetectorRef) { }
   ngOnInit(): void {
     // 1. Initialize the form structure
     this.initForm();
 
     // 2. Check for ID in URL (e.g., /group/edit/123)
     this.groupId = this.route.snapshot.paramMap.get('id');
-    
+
     if (this.groupId) {
       this.isEditMode = true;
       this.loadGroupData(this.groupId);
@@ -36,7 +38,7 @@ private destroyRef = inject(DestroyRef);
   }
   private initForm() {
     const today = new Date().toISOString().split('T')[0];
-   this.groupForm = this.fb.group({
+    this.groupForm = this.fb.group({
       groupId: ['', Validators.required],
       groupAmount: [0, Validators.required],
       baseAmount: [0, Validators.required],
@@ -54,77 +56,74 @@ private destroyRef = inject(DestroyRef);
   }
 
   private loadGroupData(id: string) {
+    console.log('id: ', id);
     // Replace this with your actual Service call: this.groupService.getById(id)
-    const data = {
-      groupId: "25n",
-      groupAmount: 100000,
-      baseAmount: 6250,
-      totalnumberOfmonths: 16,
-      runningMonth: 1,
-      balanceMonth: 15,
-      net: 6250,
-      auction: 15000,
-      interest: 150,
-      takenBy: "Self",
-      createdDate: "2023-10-27" // HTML date input needs YYYY-MM-DD
-    };
-    this.groupForm.patchValue(data);
+    this.groupService.getGroupById(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: any) => {
+          const groupData = response as GroupUserInterface;
+          this.groupData = new GroupUser(groupData)
+          console.log('this.groupData : ', this.groupData);
+          this.groupForm.patchValue(groupData.group);
+          this.cdr.detectChanges()
+        },
+        error: (err) => {
+          console.error('Error fetching group:', err);
+        }
+      });
+
   }
   private setupBalanceCalculation() {
-  // Listen to changes on BOTH fields
-  this.groupForm.valueChanges.subscribe(() => {
-    const total = this.groupForm.get('totalnumberOfmonths')?.value || 0;
-    const running = this.groupForm.get('runningMonth')?.value || 0;
-    
-    const balance = total - running;
+    // Listen to changes on BOTH fields
+    this.groupForm.valueChanges.subscribe(() => {
+      const total = this.groupForm.get('totalnumberOfmonths')?.value || 0;
+      const running = this.groupForm.get('runningMonth')?.value || 0;
 
-    // Use patchValue to update the balanceMonth field
-    this.groupForm.patchValue({
-      balanceMonth: balance >= 0 ? balance : 0 // Ensure we don't show negative months
-    }, { emitEvent: false }); // emitEvent: false prevents infinite loops
-  });
-}
- private setupInterestCalculation() {
-  // Listen to changes on BOTH fields
-  this.groupForm.valueChanges.subscribe(() => {
-    const totalMonth = this.groupForm.get('totalnumberOfmonths')?.value || 0;
-    const auction = this.groupForm.get('auction')?.value || 0;
-    const baseAmount = this.groupForm.get('baseAmount')?.value;
-    const interest =  (auction - baseAmount)/totalMonth;
-    const AppliedInterest = Math.round(interest / 10) * 10;
-    const netAmount = baseAmount - AppliedInterest;
-    // Use patchValue to update the balanceMonth field
-    this.groupForm.patchValue({
-      interest: AppliedInterest// Ensure we don't show negative months
-    }, { emitEvent: false }); // emitEvent: false prevents infinite loops
-    this.groupForm.patchValue({
-      net: netAmount// Ensure we don't show negative months
-    }, { emitEvent: false }); // emitEvent: false prevents infinite loops
-  });
-}
+      const balance = total - running;
+
+      // Use patchValue to update the balanceMonth field
+      this.groupForm.patchValue({
+        balanceMonth: balance >= 0 ? balance : 0 // Ensure we don't show negative months
+      }, { emitEvent: false }); // emitEvent: false prevents infinite loops
+    });
+  }
+  private setupInterestCalculation() {
+    // Listen to changes on BOTH fields
+    this.groupForm.valueChanges.subscribe(() => {
+      const totalMonth = this.groupForm.get('totalnumberOfmonths')?.value || 0;
+      const auction = this.groupForm.get('auction')?.value || 0;
+      const baseAmount = this.groupForm.get('baseAmount')?.value;
+      const interest = (auction - baseAmount) / totalMonth;
+      const AppliedInterest = Math.round(interest / 10) * 10;
+      const netAmount = baseAmount - AppliedInterest;
+      // Use patchValue to update the balanceMonth field
+      this.groupForm.patchValue({
+        interest: AppliedInterest// Ensure we don't show negative months
+      }, { emitEvent: false }); // emitEvent: false prevents infinite loops
+      this.groupForm.patchValue({
+        net: netAmount// Ensure we don't show negative months
+      }, { emitEvent: false }); // emitEvent: false prevents infinite loops
+    });
+  }
 
   onSubmit() {
     if (this.groupForm.valid) {
+      let groupEditAddSubscription = this.groupService.createGroup(this.groupForm.value);
       if (this.isEditMode) {
-        console.log('Updating Group ID:', this.groupId, this.groupForm.value);
-    
-        // Call your update API here
-      } else {
-        console.log('Creating New Group:', this.groupForm.value);
-        this.groupService.createGroup(this.groupForm.value)
+        let groupBody = { ...this.groupForm.value, users: this.groupData.userDetails.map(v => v.userId) }
+        groupEditAddSubscription = this.groupService.updateGroup(this.groupData.group._id, groupBody)
+      }
+      groupEditAddSubscription
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (response) => {
-           this.groupForm.reset(); // Clear the form after successful creation
-            // Optionally, navigate to the group list or show a success message
+            this.groupForm.reset(); // Clear the form after successful creation
           },
           error: (error) => {
             console.error('Error creating group:', error);
-            // Optionally, show an error message to the user
           }
         });
-        // Call your create API here
-      }
     } else {
       this.groupForm.markAllAsTouched();
     }
