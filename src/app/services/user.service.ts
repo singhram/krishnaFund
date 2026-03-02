@@ -27,7 +27,8 @@ export class UserService {
 
   // PATCH: Update specific fields of a user
   patchUser(userId: string, updates: any): Observable<any> {
-    return this.http.patch<any>(`${this.userbaseUrl}/${userId}`, updates);
+    // return this.http.patch<any>(`${this.userbaseUrl}/${userId}`, updates);
+    return this.http.post<any>(`${this.userbaseUrl}/${userId}`, updates);
   }
 
   // DELETE: Remove a user

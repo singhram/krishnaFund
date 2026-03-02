@@ -30,7 +30,9 @@ export class GroupService {
 
   // PATCH: Update specific fields of a group
   updateGroup(id: string, updates: any): Observable<any> {
-    return this.http.patch(`${this.groupBaseUrl}${id}`, updates);
+    // return this.http.patch(`${this.groupBaseUrl}${id}`, updates);
+    return this.http.post(`${this.groupBaseUrl}${id}`, updates);
+
   }
 
   // DELETE: Remove a group
