@@ -10,22 +10,22 @@
   <table>
     <thead>
       <tr>
-        
+        <th>S no.</th>
         <th>Name</th>
-        <th>Phone Number</th>
+        <!-- <th>Phone Number</th> -->
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      @for (user of users; track user.userId) {
+      @for (user of users; track $index;) {
         <tr>
-           <!-- <td>
-            <a   class="table-link">{{ user.userId }}</a>
-          </td> -->
+           <td>
+            <a   class="table-link">{{ $index+1}}</a>
+          </td>
           <td>
             <a [routerLink]="['/userdetails', user.userId]" class="table-link">{{ user.name }}</a>
           </td>
-          <td>{{ user.phoneNumber }}</td>
+          <!-- <td>{{ user.phoneNumber }}</td> -->
           <td>
             <button class="edit-btn" [routerLink]="['/user/edit', user.userId]">Edit</button>
           </td>

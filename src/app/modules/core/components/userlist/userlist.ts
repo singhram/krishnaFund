@@ -26,7 +26,7 @@ export class Userlist implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef)) // Auto-cleanup magic
       .subscribe({
         next: (data: User[] ) => {
-          this.users = data;
+          this.users = data?.sort((a:any,b:any)=>a.name.localeCompare(b.name));
           console.log('Fetched users:', this.users);
           this.cdr.markForCheck(); // Manually trigger change detection
         },

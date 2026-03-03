@@ -6,6 +6,7 @@ import { GroupService } from '@app/services/group/group.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GroupUserInterface } from '@app/models/group.model';
 import { GroupUser } from '../../utils/group';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-creategroup',
@@ -88,25 +89,44 @@ export class Creategroup implements OnInit {
       }, { emitEvent: false }); // emitEvent: false prevents infinite loops
     });
   }
-  private setupInterestCalculation() {
-    // Listen to changes on BOTH fields
-    this.groupForm.valueChanges.subscribe(() => {
-      const totalMonth = this.groupForm.get('totalnumberOfmonths')?.value || 0;
-      const auction = this.groupForm.get('auction')?.value || 0;
-      const baseAmount = this.groupForm.get('baseAmount')?.value;
-      const interest = (auction - baseAmount) / totalMonth;
-      const AppliedInterest = Math.round(interest / 10) * 10;
-      const netAmount = baseAmount - AppliedInterest;
-      // Use patchValue to update the balanceMonth field
-      this.groupForm.patchValue({
-        interest: AppliedInterest// Ensure we don't show negative months
-      }, { emitEvent: false }); // emitEvent: false prevents infinite loops
-      this.groupForm.patchValue({
-        net: netAmount// Ensure we don't show negative months
-      }, { emitEvent: false }); // emitEvent: false prevents infinite loops
-    });
-  }
+private setupInterestCalculation() {
+  // 1. Only listen to fields that REQUIRE a recalculation of interest
+  // We use merge to watch multiple specific controls instead of the whole form
 
+  const triggerFields = merge(
+    this.groupForm.get('totalnumberOfmonths')!.valueChanges,
+    this.groupForm.get('auction')!.valueChanges,
+    this.groupForm.get('baseAmount')!.valueChanges
+  );
+
+  triggerFields.subscribe(() => {
+    const values = this.groupForm.getRawValue();
+    const totalMonth = values.totalnumberOfmonths || 0;
+    const auction = values.auction || 0;
+    const baseAmount = values.baseAmount || 0;
+
+    if (totalMonth > 0) {
+      const calculatedInterest = (auction - baseAmount) / totalMonth;
+      const appliedInterest = Math.round(calculatedInterest / 10) * 10;
+      const netAmount = baseAmount - appliedInterest;
+
+      this.groupForm.patchValue({
+        interest: appliedInterest,
+        net: netAmount
+      }, { emitEvent: false }); // This prevents the 'interest' listener below from firing
+    }
+  });
+
+  // 2. Listen to manual interest changes to update NET only
+  this.groupForm.get('interest')?.valueChanges.subscribe((manualInterest) => {
+    const baseAmount = this.groupForm.get('baseAmount')?.value || 0;
+    const netAmount = baseAmount - (manualInterest || 0);
+
+    this.groupForm.patchValue({
+      net: netAmount
+    }, { emitEvent: false });
+  });
+}
   onSubmit() {
     if (this.groupForm.valid) {
       let groupEditAddSubscription = this.groupService.createGroup(this.groupForm.value);

@@ -10,6 +10,8 @@ main {
   display: flex;
   flex-direction: column;
   
+  max-height: 100vh;
+  overflow-y: scroll;
   /* Remove justify-content: center; it causes the "top overflow" bug */
   
   /* Use padding for top/bottom spacing instead */

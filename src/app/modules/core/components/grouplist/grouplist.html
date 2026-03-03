@@ -12,14 +12,15 @@
     <table>
       <thead>
         <tr>
+          <th>Sno.</th>
           <th>Date</th>
           <th>Full Name</th>
           <th>Months</th>
           <th>Run. Month</th>
           <th>Bal. Month</th>
           <th>Auction</th>
-          <th>Balance</th>
           <th>Interest</th>
+          <th>Balance</th>
           <th>Taken By</th>
           <th></th>
           <th></th>
@@ -27,8 +28,9 @@
         </tr>
       </thead>
       <tbody>
-        @for (group of groupList; track group.groupId) {
+        @for (group of groupList; track $index) {
           <tr [routerLink]="['/usergrouplist', group._id]">
+            <td>{{$index+1}}</td>
             <td>{{ group.createdDate | date:'mediumDate' }}</td>
             <td>{{ group.groupId }}</td>
             <td>{{ group.totalnumberOfmonths }}</td>

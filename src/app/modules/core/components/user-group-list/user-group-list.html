@@ -31,14 +31,14 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Phone Number</th>
+          <!-- <th>Phone Number</th> -->
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of groupData.userDetails">
-          <td [routerLink]="['/userdetails', user.userId]">{{ user.userId }}</td>
+        <tr *ngFor="let user of groupData.userDetails;let index = index">
+          <td [routerLink]="['/userdetails', user.userId]">{{ index+1 }}</td>
           <td [routerLink]="['/userdetails', user.userId]">{{ user.name }}</td>
-          <td>{{ user.phoneNumber }}</td>
+          <!-- <td>{{ user.phoneNumber }}</td> -->
         </tr>
       </tbody>
     </table>
