@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router'; // Required for links to work
 import { User } from '@app/models/user.model';
 import { UserService } from '@app/services/user.service';
 import { ChangeDetectorRef } from '@angular/core'; // 1. Import this
+import { ConfirmationModal } from '../../modal/confirmation-modal/confirmation-modal';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-userlist',
@@ -13,9 +15,9 @@ import { ChangeDetectorRef } from '@angular/core'; // 1. Import this
   styleUrl: './userlist.scss',
 })
 export class Userlist implements OnInit {
-  public users: User[] =  []// Initialize as an empty array
+  public users: User[] = []// Initialize as an empty array
   private destroyRef = inject(DestroyRef);
-  constructor(private userservice: UserService, private cdr: ChangeDetectorRef) {
+  constructor(private userservice: UserService, private cdr: ChangeDetectorRef, public dialog: MatDialog) {
 
   }
   ngOnInit(): void {
@@ -25,23 +27,35 @@ export class Userlist implements OnInit {
     this.userservice.getUsers()
       .pipe(takeUntilDestroyed(this.destroyRef)) // Auto-cleanup magic
       .subscribe({
-        next: (data: User[] ) => {
-          this.users = data?.sort((a:any,b:any)=>a.name.localeCompare(b.name));
+        next: (data: User[]) => {
+          this.users = data?.sort((a: any, b: any) => a.name.localeCompare(b.name));
           console.log('Fetched users:', this.users);
           this.cdr.markForCheck(); // Manually trigger change detection
         },
         error: (err) => console.error(err)
       });
   }
-  deleteUser(userId:string) {
-    this.userservice.deleteUser(userId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          console.log(`User with ID ${userId} deleted successfully.`);
-          this.getUsers(); // Refresh the user list after deletion
-        },
-        error: (err) => console.error(`Error deleting user with ID ${userId}:`, err)
-      });
-  } 
+  deleteUser(user: any) {
+
+    const dialogRef = this.dialog.open(ConfirmationModal, {
+      width: '400px',
+      data: { message: "Are you sure to delete", name: user.name, delete: true }, // Optional: pass data
+      disableClose: false // Prevents closing by clicking outside
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.userservice.deleteUser(user.userId)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: () => {
+              this.getUsers(); // Refresh the user list after deletion
+            },
+            error: (err) => console.error(`Error deleting user with ID ${user.name}:`, err)
+          });
+
+      }
+    });
+
+
+  }
 }

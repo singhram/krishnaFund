@@ -1,4 +1,4 @@
-<div class="list-container">
+<!-- <div class="list-container">
   <div class="container">
     <div  class="mt-2">
     <button [routerLink]="['/userlist']">Back</button>
@@ -24,7 +24,6 @@
           <th>Taken By</th>
           <th></th>
           <th></th>
-          <!-- <th>Actions</th> -->
         </tr>
       </thead>
       <tbody>
@@ -51,5 +50,97 @@
         }
       </tbody>
     </table>
+  </div>
+</div> -->
+<div class="list-container">
+  <div class="container">
+
+    <div class="top-actions">
+      <button mat-raised-button color="primary" [routerLink]="['/userlist']">
+        Back
+      </button>
+
+      <button mat-raised-button color="accent" routerLink="/group/add">
+        Add New Group
+      </button>
+    </div>
+
+    <h2 class="title">Group List</h2>
+
+    <mat-accordion multi="true">
+
+      @for (group of groupList; track $index) {
+
+        <mat-expansion-panel class="" style="margin: 15px 0;">
+
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{$index + 1}}. {{ group.groupId }}
+            </mat-panel-title>
+
+            <mat-panel-description>
+              {{ group.createdDate | date:'dd/MM/yy' }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="group-details">
+
+            <div class="detail-item">
+              <span class="label">Months</span>
+              <span>{{ group.totalnumberOfmonths }}</span>
+            </div>
+
+            <div class="detail-item">
+              <span class="label">Running Month</span>
+              <span>{{ group.runningMonth }}</span>
+            </div>
+
+            <div class="detail-item">
+              <span class="label">Balance Month</span>
+              <span>{{ group.balanceMonth }}</span>
+            </div>
+
+            <div class="detail-item">
+              <span class="label">Auction</span>
+              <span>{{ group.auction }}</span>
+            </div>
+
+            <div class="detail-item">
+              <span class="label">Interest</span>
+              <span>{{ group.interest }}</span>
+            </div>
+
+            <div class="detail-item">
+              <span class="label">Balance</span>
+              <span>{{ group.net }}</span>
+            </div>
+
+            <div class="detail-item">
+              <span class="label">Taken By</span>
+              <span>{{ group.takenBy }}</span>
+            </div>
+
+          </div>
+
+          <div class="actions">
+            <button mat-stroked-button color="primary"
+              [routerLink]="['/group/edit', group._id]">
+              Edit
+            </button>
+
+            <button mat-flat-button color="accent"
+              [routerLink]="['/usergrouplist', group._id]">
+              View
+            </button>
+          </div>
+
+        </mat-expansion-panel>
+
+      } @empty {
+        <p class="empty-msg">No groups available.</p>
+      }
+
+    </mat-accordion>
+
   </div>
 </div>

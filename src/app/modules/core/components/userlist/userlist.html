@@ -30,7 +30,7 @@
             <button class="edit-btn" [routerLink]="['/user/edit', user.userId]">Edit</button>
           </td>
            <td>
-            <button class="delete-btn add-group" (click)="deleteUser(user.userId)">Delete</button>
+            <button class="delete-btn add-group" (click)="deleteUser(user)">Delete</button>
           </td>
         </tr>
       } @empty {

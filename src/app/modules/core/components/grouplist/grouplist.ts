@@ -5,10 +5,11 @@ import { RouterLink } from '@angular/router';
 import { GroupService } from '@app/services/group/group.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GroupInterface } from '@app/models/group.model';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-grouplist',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink,MatExpansionModule],
   templateUrl: './grouplist.html',
   styleUrl: './grouplist.scss',
 })

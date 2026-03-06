@@ -1,0 +1,98 @@
+@layer reset {
+
+    /* Box sizing rules */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    /* Remove default margin */
+    * {
+        margin: 0;
+    }
+
+    /* Smooth scroll */
+    html:focus-within {
+        scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        text-rendering: optimizeSpeed;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Remove list styles */
+    ul[role='list'],
+    ol[role='list'] {
+        list-style: none;
+    }
+
+    /* Media defaults */
+    img,
+    picture,
+    video,
+    canvas,
+    svg {
+        display: block;
+        max-width: 100%;
+    }
+
+    /* Form inheritance */
+    input,
+    button,
+    textarea,
+    select {
+        font: inherit;
+    }
+
+    /* Button reset */
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Prevent text overflow */
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        overflow-wrap: break-word;
+    }
+}
+@layer layout {
+
+  .container {
+    width: min(100% - 2rem, 1200px);
+    margin-inline: auto;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--spacing-md);
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .flex {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .stack > * + * {
+    margin-top: var(--spacing-md);
+  }
+
+}
