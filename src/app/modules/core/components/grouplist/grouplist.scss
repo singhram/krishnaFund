@@ -1,200 +1,202 @@
+// =============================================================================
+// GROUPLIST
+// =============================================================================
+
+:host {
+  display: block;
+}
+
 .list-container {
-  width: 100%;
-  max-width: 1200px;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 1rem;
-  box-sizing: border-box;
+  padding: var(--spacing-6) var(--spacing-4);
 }
 
-.header {
+// Top action bar
+.top-actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  
-  h2 { margin: 0; font-size: 1.5rem; }
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-6);
 }
 
-/* FIX: Table Scroll Logic */
-.table-wrapper {
-  width: 100%;
-  display: block;          /* Force block behavior */
-  overflow-x: auto;        /* Enable horizontal scroll */
-  overflow-y: hidden;      /* Prevent vertical scroll fight */
-  position: relative;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: white;
-  -webkit-overflow-scrolling: touch; /* Momentum scroll for mobile */
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-5);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1000px;       /* Increased to ensure overflow on all mobiles */
-  
-  th, td {
-    padding: 14px 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-    white-space: nowrap;   /* Crucial: prevents text from squeezing */
+// ---------------------------------------------------------------------------
+// MAT-ACCORDION — override Material defaults via ::ng-deep
+// ---------------------------------------------------------------------------
+
+// Remove accordion's own box shadow / border so our panel controls it
+::ng-deep .mat-accordion .mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+}
+
+::ng-deep .group-panel {
+  background: var(--color-surface) !important;
+  border: 1.5px solid var(--color-border) !important;
+  border-radius: var(--radius-lg) !important;
+  margin-bottom: var(--spacing-3) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+  transition:
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--color-primary) !important;
   }
 
-  /* STICKY HEADER: Keeps header at top while scrolling */
-  thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  // Header — the clickable row
+  .mat-expansion-panel-header {
+    height: auto !important;
+    padding: var(--spacing-4) var(--spacing-5) !important;
+    background: linear-gradient(135deg, #EFF6FF 0%, #F0FDFA 100%) !important;
+    border-bottom: 1.5px solid var(--color-border);
+    transition: background var(--transition-base) !important;
+
+    &:hover {
+      background: linear-gradient(135deg, #DBEAFE 0%, #CCFBF1 100%) !important;
+    }
+
+    // Expanded state — stronger gradient
+    &.mat-expanded {
+      background: linear-gradient(135deg, #DBEAFE 0%, #CCFBF1 100%) !important;
+      border-bottom-color: var(--color-primary) !important;
+    }
   }
 
-  th {
-    background-color: #f8f9fa;
-    color: #333;
-    font-weight: 600;
-    border-bottom: 2px solid #dee2e6;
+  // Panel title — group name
+  .mat-expansion-panel-header-title {
+    font-size: var(--font-size-base) !important;
+    font-weight: var(--font-weight-bold) !important;
+    color: var(--color-primary) !important;
   }
 
-  tr:hover {
-    background-color: #fcfcfc;
+  // Panel description — date
+  .mat-expansion-panel-header-description {
+    font-size: var(--font-size-sm) !important;
+    font-weight: var(--font-weight-medium) !important;
+    color: var(--color-text-secondary) !important;
+    justify-content: flex-end;
   }
 
-  tr:last-child td {
-    border-bottom: none;
+  // Expand/collapse arrow icon
+  .mat-expansion-indicator::after {
+    color: var(--color-primary) !important;
+    border-width: 0 2.5px 2.5px 0 !important;
+  }
+
+  // Panel body
+  .mat-expansion-panel-body {
+    padding: var(--spacing-5) var(--spacing-5) var(--spacing-4) !important;
+    background: var(--color-surface) !important;
   }
 }
 
-/* BUTTONS */
-.edit-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-
-  &:hover { background: #0056b3; }
-}
-
-.add-btn {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s;
-
-  &:hover { background: #218838; }
-}
-
-/* Empty message row */
-.empty-msg {
-  text-align: center !important;
-  color: #888;
-  padding: 30px !important;
-}
-:host{
-  max-width: 100%;
-}
+// ---------------------------------------------------------------------------
+// Group detail grid inside expanded panel body
+// ---------------------------------------------------------------------------
 .group-details {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .detail-item {
   display: flex;
   flex-direction: column;
-  padding: 8px;
-  background: #f7f7f7;
-  border-radius: 6px;
+  gap: var(--spacing-1);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+
+  &:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  .label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  span:last-child {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-top: var(--spacing-1);
+  }
 }
 
-.label {
-  font-size: 12px;
-  color: #777;
-  margin-bottom: 2px;
-}
-
-/* Buttons */
+// ---------------------------------------------------------------------------
+// Action buttons row
+// ---------------------------------------------------------------------------
 .actions {
-  margin-top: 15px;
   display: flex;
-  gap: 10px;
-}
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
 
-/* 📱 Mobile */
-@media (max-width: 600px) {
-
-  .group-details {
-    grid-template-columns: repeat(2, 1fr); /* still 2 items per row */
-  }
-
-  .actions {
+  @media (max-width: 480px) {
     flex-direction: column;
-  }
-
-  .actions button {
-    width: 100%;
+    button { width: 100%; }
   }
 }
-.top-actions{
-  display: flex;
-  justify-content: space-between;
+
+.empty-msg {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-10) 0;
 }
 
-/* Inline edit panel */
+// ---------------------------------------------------------------------------
+// Inline Quick Edit wrapper
+// ---------------------------------------------------------------------------
 .inline-edit-wrapper {
-  margin-top: 16px;
-  border: 1px solid #c5d3f0;
-  border-radius: 10px;
-  padding: 16px;
-  background: #f8faff;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  margin-top: var(--spacing-4);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-lg);
 }
 
 .inline-edit-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-5);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
 
-  h2 { margin: 0; }
-}
-mat-expansion-panel {
-  background: #f9fafc;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-mat-expansion-panel-header {
-  background: #eef3ff;
-  border-radius: 10px;
-  font-weight: 500;
-}
-
-mat-expansion-panel-header:hover {
-  background: #e0e8ff;
-}
-mat-expansion-panel {
-  border-radius: 10px;
-  margin-bottom: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-}
-
-/* Header */
-mat-expansion-panel-header {
-  background: #e9f1ff;
-  font-weight: 500;
-}
-
-/* Body */
-.mat-expansion-panel-body {
-  background: #f8faff;
-  padding: 16px;
+  h2 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin: 0;
+  }
 }

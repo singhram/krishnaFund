@@ -1,23 +1,13 @@
+// =============================================================================
+// APP SHELL
+// Root component host styles. Sets up the full-height layout shell.
+// =============================================================================
+
 :host {
   display: block;
-  min-height: 100vh; // Use min-height so it can grow
+  min-height: 100vh;
   width: 100%;
-  background-color: #f4f7f6; // Optional: light grey background
+  background-color: var(--color-bg);
+  font-family: var(--font-family-base);
+  color: var(--color-text-primary);
 }
-
-// main {
-//   width: 100%;
-//   display: flex;
-//   flex-direction: column;
-  
-//   max-height: 100vh;
-//   overflow-y: scroll;
-//   /* Remove justify-content: center; it causes the "top overflow" bug */
-  
-//   /* Use padding for top/bottom spacing instead */
-//   padding: 5rem 1rem; 
-  
-//   /* This ensures the content doesn't get stuck to the top on big screens */
-//   min-height: 100vh; 
-//   box-sizing: border-box;
-// }

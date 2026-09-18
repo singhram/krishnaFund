@@ -2,9 +2,7 @@
   <div class="container">
 
     <div class="top-actions">
-      <button mat-raised-button color="primary" [routerLink]="['/userlist']">
-        Back
-      </button>
+      <button class="btn-back" [routerLink]="['/userlist']">← Back</button>
 
       <button mat-raised-button color="accent" routerLink="/group/add">
         Add New Group
@@ -20,7 +18,7 @@
 
         @for (group of groupList; track $index) {
 
-          <mat-expansion-panel style="margin: 15px 0;">
+          <mat-expansion-panel class="group-panel">
 
             <mat-expansion-panel-header>
               <mat-panel-title>

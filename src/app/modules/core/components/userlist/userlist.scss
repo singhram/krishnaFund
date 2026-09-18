@@ -1,12 +1,155 @@
-.add-group{
-    background-color:  #e76225;
+// =============================================================================
+// USERLIST
+// =============================================================================
+
+.list-container {
+  padding: var(--spacing-6) var(--spacing-4);
+  max-width: var(--container-max);
+  margin: 0 auto;
 }
-.button-holder{
-    display: flex;
-    justify-content: space-between;
-    margin: 2rem 0;
+
+// Page header row
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+
+  h2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0;
+  }
 }
-.list-container{
-    max-height: 100vh;
-    overflow: scroll;
+
+.button-holder {
+  display: flex;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+// Shared button base
+%btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-5);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-base), transform var(--transition-fast);
+
+  &:active { transform: translateY(1px); }
+}
+
+.add-btn {
+  @extend %btn;
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+
+  &:hover { background: var(--color-accent-dark); }
+}
+
+.add-group {
+  @extend %btn;
+  background: var(--color-warning);
+  color: var(--color-text-inverse);
+
+  &:hover { background: #b45309; }
+}
+
+.edit-btn {
+  @extend %btn;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: var(--spacing-1) var(--spacing-3);
+
+  &:hover { background: var(--color-primary); color: var(--color-text-inverse); }
+}
+
+.delete-btn {
+  @extend %btn;
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  padding: var(--spacing-1) var(--spacing-3);
+
+  &:hover { background: var(--color-danger); color: var(--color-text-inverse); }
+}
+
+// Scrollable table wrapper
+.table-wrapper-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+
+  &::-webkit-scrollbar { height: 5px; }
+  &::-webkit-scrollbar-track { background: var(--color-bg); }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border-radius: var(--radius-full);
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 480px;
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-base);
+  }
+
+  th {
+    background: var(--color-surface-alt);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-3) var(--spacing-4);
+    text-align: left;
+    border-bottom: 2px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: var(--spacing-3) var(--spacing-4);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    vertical-align: middle;
+  }
+
+  tbody tr {
+    transition: background var(--transition-fast);
+    &:hover { background: var(--color-primary-light); }
+    &:last-child td { border-bottom: none; }
+  }
+}
+
+.table-link {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+
+  &:hover { color: var(--color-primary-dark); text-decoration: underline; }
+}
+
+.empty-msg {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--spacing-8) !important;
+  font-size: var(--font-size-sm);
 }

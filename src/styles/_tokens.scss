@@ -1,0 +1,128 @@
+// =============================================================================
+// DESIGN TOKENS
+// Single source of truth for all CSS custom properties.
+// Import this file wherever tokens are needed, or expose via :root in styles.scss
+// =============================================================================
+
+@mixin define-tokens {
+  // ---------------------------------------------------------------------------
+  // COLOR — Brand
+  // ---------------------------------------------------------------------------
+  --color-primary:       #2563EB;
+  --color-primary-light: #EFF6FF;
+  --color-primary-dark:  #1D4ED8;
+
+  --color-accent:        #0F766E;
+  --color-accent-light:  #F0FDFA;
+  --color-accent-dark:   #0D6059;
+
+  --color-warning:       #D97706;
+  --color-warning-light: #FFFBEB;
+
+  --color-danger:        #DC2626;
+  --color-danger-light:  #FEF2F2;
+  --color-danger-dark:   #B91C1C;
+
+  --color-success:       #16A34A;
+  --color-success-light: #F0FDF4;
+
+  // ---------------------------------------------------------------------------
+  // COLOR — Neutral / Surface
+  // ---------------------------------------------------------------------------
+  --color-bg:            #F1F5F9;
+  --color-surface:       #FFFFFF;
+  --color-surface-alt:   #F8FAFC;
+
+  --color-border:        #E2E8F0;
+  --color-border-strong: #CBD5E1;
+
+  // ---------------------------------------------------------------------------
+  // COLOR — Text
+  // ---------------------------------------------------------------------------
+  --color-text-primary:   #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted:     #94A3B8;
+  --color-text-inverse:   #FFFFFF;
+
+  // ---------------------------------------------------------------------------
+  // TYPOGRAPHY
+  // ---------------------------------------------------------------------------
+  --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --font-size-xs:   0.75rem;   // 12px
+  --font-size-sm:   0.875rem;  // 14px
+  --font-size-base: 1rem;      // 16px
+  --font-size-md:   1.125rem;  // 18px
+  --font-size-lg:   1.25rem;   // 20px
+  --font-size-xl:   1.5rem;    // 24px
+  --font-size-2xl:  2rem;      // 32px
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-tight:  1.25;
+  --line-height-base:   1.5;
+  --line-height-loose:  1.75;
+
+  // ---------------------------------------------------------------------------
+  // SPACING
+  // ---------------------------------------------------------------------------
+  --spacing-1:  0.25rem;   // 4px
+  --spacing-2:  0.5rem;    // 8px
+  --spacing-3:  0.75rem;   // 12px
+  --spacing-4:  1rem;      // 16px
+  --spacing-5:  1.25rem;   // 20px
+  --spacing-6:  1.5rem;    // 24px
+  --spacing-8:  2rem;      // 32px
+  --spacing-10: 2.5rem;    // 40px
+  --spacing-12: 3rem;      // 48px
+
+  // Semantic aliases
+  --spacing-xs:  var(--spacing-1);
+  --spacing-sm:  var(--spacing-2);
+  --spacing-md:  var(--spacing-4);
+  --spacing-lg:  var(--spacing-6);
+  --spacing-xl:  var(--spacing-8);
+  --spacing-2xl: var(--spacing-12);
+
+  // ---------------------------------------------------------------------------
+  // BORDER RADIUS
+  // ---------------------------------------------------------------------------
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  // ---------------------------------------------------------------------------
+  // SHADOWS
+  // ---------------------------------------------------------------------------
+  --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg:  0 10px 25px rgba(0, 0, 0, 0.10);
+  --shadow-xl:  0 20px 40px rgba(0, 0, 0, 0.12);
+
+  // ---------------------------------------------------------------------------
+  // TRANSITIONS
+  // ---------------------------------------------------------------------------
+  --transition-fast:   150ms ease;
+  --transition-base:   200ms ease;
+  --transition-slow:   300ms ease;
+
+  // ---------------------------------------------------------------------------
+  // LAYOUT
+  // ---------------------------------------------------------------------------
+  --container-max:   1200px;
+  --container-sm:    640px;
+  --container-md:    768px;
+
+  // ---------------------------------------------------------------------------
+  // Z-INDEX
+  // ---------------------------------------------------------------------------
+  --z-base:     1;
+  --z-dropdown: 100;
+  --z-modal:    200;
+  --z-toast:    300;
+}
