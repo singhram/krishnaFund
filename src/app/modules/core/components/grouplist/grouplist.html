@@ -1,57 +1,3 @@
-<!-- <div class="list-container">
-  <div class="container">
-    <div  class="mt-2">
-    <button [routerLink]="['/userlist']">Back</button>
-  </div>
-  <div class="header">
-    <h2>Group List</h2>
-    <button class="add-btn" routerLink="/group/add">Add New Group</button>
-  </div>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Sno.</th>
-          <th>Date</th>
-          <th>Full Name</th>
-          <th>Months</th>
-          <th>Run. Month</th>
-          <th>Bal. Month</th>
-          <th>Auction</th>
-          <th>Interest</th>
-          <th>Balance</th>
-          <th>Taken By</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (group of groupList; track $index) {
-          <tr [routerLink]="['/usergrouplist', group._id]">
-            <td>{{$index+1}}</td>
-            <td>{{ group.createdDate | date:'mediumDate' }}</td>
-            <td>{{ group.groupId }}</td>
-            <td>{{ group.totalnumberOfmonths }}</td>
-            <td>{{ group.runningMonth }}</td>
-            <td>{{ group.balanceMonth }}</td>
-            <td>{{ group.auction }}</td>
-            <td>{{ group.interest }}</td>
-            <td>{{ group.net }}</td>
-            <td>{{ group.takenBy }}</td>
-            <td>
-              <button class="edit-btn" [routerLink]="['/group/edit', group._id]">Edit</button>
-            </td>
-          </tr>
-        } @empty {
-          <tr>
-            <td colspan="9" class="empty-msg">No groups available.</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div> -->
 <div class="list-container">
   <div class="container">
 
@@ -65,82 +11,108 @@
       </button>
     </div>
 
-    <h2 class="title">Group List</h2>
+    <!-- List view: hidden when an inline edit is active -->
+    @if (!inlineEditGroupId) {
 
-    <mat-accordion multi="true">
+      <h2 class="title">Group List</h2>
 
-      @for (group of groupList; track $index) {
+      <mat-accordion multi="true">
 
-        <mat-expansion-panel class="" style="margin: 15px 0;">
+        @for (group of groupList; track $index) {
 
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{$index + 1}}. {{ group.groupId }}
-            </mat-panel-title>
+          <mat-expansion-panel style="margin: 15px 0;">
 
-            <mat-panel-description>
-              {{ group.createdDate | date:'dd/MM/yy' }}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{$index + 1}}. {{ group.groupId }}
+              </mat-panel-title>
 
-          <div class="group-details">
+              <mat-panel-description>
+                {{ group.createdDate | date:'dd/MM/yy' }}
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-            <div class="detail-item">
-              <span class="label">Months</span>
-              <span>{{ group.totalnumberOfmonths }}</span>
+            <div class="group-details">
+
+              <div class="detail-item">
+                <span class="label">Months</span>
+                <span>{{ group.totalnumberOfmonths }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="label">Running Month</span>
+                <span>{{ group.runningMonth }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="label">Balance Month</span>
+                <span>{{ group.balanceMonth }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="label">Auction</span>
+                <span>{{ group.auction }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="label">Interest</span>
+                <span>{{ group.interest }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="label">Balance</span>
+                <span>{{ group.net }}</span>
+              </div>
+
+              <div class="detail-item">
+                <span class="label">Taken By</span>
+                <span>{{ group.takenBy }}</span>
+              </div>
+
             </div>
 
-            <div class="detail-item">
-              <span class="label">Running Month</span>
-              <span>{{ group.runningMonth }}</span>
+            <div class="actions">
+              <!-- Routes to /group/edit/:id (full-page edit) -->
+              <button mat-stroked-button color="primary"
+                [routerLink]="['/group/edit', group._id]">
+                Edit
+              </button>
+
+              <!-- Toggles inline Creategroup below this list -->
+              <button mat-flat-button color="warn"
+                (click)="toggleInlineEdit(group._id)">
+                Quick Edit
+              </button>
+
+              <button mat-flat-button color="accent"
+                [routerLink]="['/usergrouplist', group._id]">
+                View
+              </button>
             </div>
 
-            <div class="detail-item">
-              <span class="label">Balance Month</span>
-              <span>{{ group.balanceMonth }}</span>
-            </div>
+          </mat-expansion-panel>
 
-            <div class="detail-item">
-              <span class="label">Auction</span>
-              <span>{{ group.auction }}</span>
-            </div>
+        } @empty {
+          <p class="empty-msg">No groups available.</p>
+        }
 
-            <div class="detail-item">
-              <span class="label">Interest</span>
-              <span>{{ group.interest }}</span>
-            </div>
+      </mat-accordion>
 
-            <div class="detail-item">
-              <span class="label">Balance</span>
-              <span>{{ group.net }}</span>
-            </div>
+    }
 
-            <div class="detail-item">
-              <span class="label">Taken By</span>
-              <span>{{ group.takenBy }}</span>
-            </div>
+    <!-- Inline edit view: shown when Quick Edit is clicked -->
+    @if (inlineEditGroupId) {
+      <div class="inline-edit-wrapper">
+        <div class="inline-edit-header">
+          <h2 class="title">Quick Edit Group</h2>
+          <button mat-stroked-button color="warn" (click)="closeInlineEdit()">
+            ✕ Close
+          </button>
+        </div>
 
-          </div>
-
-          <div class="actions">
-            <button mat-stroked-button color="primary"
-              [routerLink]="['/group/edit', group._id]">
-              Edit
-            </button>
-
-            <button mat-flat-button color="accent"
-              [routerLink]="['/usergrouplist', group._id]">
-              View
-            </button>
-          </div>
-
-        </mat-expansion-panel>
-
-      } @empty {
-        <p class="empty-msg">No groups available.</p>
-      }
-
-    </mat-accordion>
+        <app-creategroup [inputGroupId]="inlineEditGroupId" (groupSaved)="getGroupList()" />
+      </div>
+    }
 
   </div>
 </div>

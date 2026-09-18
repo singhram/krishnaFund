@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
@@ -16,6 +16,12 @@ import { merge } from 'rxjs';
   styleUrl: './creategroup.scss',
 })
 export class Creategroup implements OnInit {
+  /** When used as an inline embedded component, pass the group id via this input.
+   *  If provided it takes precedence over the route param. */
+  @Input() inputGroupId: string | null = null;
+
+  /** Emitted after a successful create or update API call. Parent can listen to refresh its list. */
+  @Output() groupSaved = new EventEmitter<void>();
   groupForm!: FormGroup;
   isEditMode = false;
   groupId: string | null = null;
@@ -29,8 +35,8 @@ export class Creategroup implements OnInit {
     // 1. Initialize the form structure
     this.initForm();
 
-    // 2. Check for ID in URL (e.g., /group/edit/123)
-    this.groupId = this.route.snapshot.paramMap.get('id');
+    // 2. Prefer inputGroupId (inline mode) over route param
+    this.groupId = this.inputGroupId ?? this.route.snapshot.paramMap.get('id');
 
     if (this.groupId) {
       this.isEditMode = true;
@@ -139,6 +145,8 @@ private setupInterestCalculation() {
         .subscribe({
           next: (response) => {
             this.groupForm.reset(); // Clear the form after successful creation
+            
+            this.groupSaved.emit();  // Notify parent to refresh the group list
           },
           error: (error) => {
             console.error('Error creating group:', error);
