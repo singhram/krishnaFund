@@ -1,0 +1,1 @@
+import{G as s,N as i,d as r,z as o}from"./chunk-FG4Z3XUJ.js";function j(t){t||(t=s(i));let u=new r(e=>{if(t.destroyed){e.next();return}return t.onDestroy(e.next.bind(e))});return e=>e.pipe(o(u))}var n={production:!1,baseurl:"http://192.168.1.4:3000/api/",userBaseUrl:"users"};var C={USER_BASE_URL:n.baseurl+n.userBaseUrl,BASEURL:n.baseurl};export{C as a,j as b};
