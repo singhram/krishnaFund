@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  baseurl:'http://192.168.1.4:3000/api/',
+  baseurl:'http://3.25.211.108:3000/api/',
   userBaseUrl: 'users' // Local NestJS
 };
