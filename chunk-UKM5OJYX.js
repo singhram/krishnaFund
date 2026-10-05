@@ -1,0 +1,1 @@
+import{G as s,N as i,d as r,z as o}from"./chunk-NTGE5H56.js";function w(t){t||(t=s(i));let u=new r(e=>{if(t.destroyed){e.next();return}return t.onDestroy(e.next.bind(e))});return e=>e.pipe(o(u))}var n={production:!1,baseurl:"https://3-107-96-83.sslip.io/api/",userBaseUrl:"users"};var S={USER_BASE_URL:n.baseurl+n.userBaseUrl,BASEURL:n.baseurl};export{S as a,w as b};
